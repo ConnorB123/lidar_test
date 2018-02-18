@@ -5,9 +5,74 @@
 
 using namespace rp::standalone::rplidar;
 
+u_result capture_and_display(RPlidarDriver * drv)
+{
+    u_result ans;
+
+    rplidar_response_measurement_node_t nodes[360*2];
+    size_t   count = _countof(nodes);
+
+    printf("waiting for data...\n");
+
+    // fetech extactly one 0-360 degrees' scan
+    ans = drv->grabScanData(nodes, count);
+    if (IS_OK(ans) || ans == RESULT_OPERATION_TIMEOUT) {
+        drv->ascendScanData(nodes, count);
+    //    plot_histogram(nodes, count);
+
+        printf("Do you want to see all the data? (y/n) ");
+        int key = getchar();
+        if (key == 'Y' || key == 'y') {
+            for (int pos = 0; pos < (int)count ; ++pos) {
+                printf("%s theta: %03.2f Dist: %08.2f \n",
+                    (nodes[pos].sync_quality & RPLIDAR_RESP_MEASUREMENT_SYNCBIT) ?"S ":"  ",
+                    (nodes[pos].angle_q6_checkbit >> RPLIDAR_RESP_MEASUREMENT_ANGLE_SHIFT)/64.0f,
+                    nodes[pos].distance_q2/4.0f);
+            }
+        }
+    } else {
+        printf("error code: %x\n", ans);
+    }
+
+    return ans;
+}
+
+u_result capture_and_display(RPlidarDriver * drv)
+{
+    u_result ans;
+
+    rplidar_response_measurement_node_t nodes[360*2];
+    size_t   count = _countof(nodes);
+
+    printf("waiting for data...\n");
+
+    // fetech extactly one 0-360 degrees' scan
+    ans = drv->grabScanData(nodes, count);
+    if (IS_OK(ans) || ans == RESULT_OPERATION_TIMEOUT) {
+        drv->ascendScanData(nodes, count);
+        plot_histogram(nodes, count);
+
+        printf("Do you want to see all the data? (y/n) ");
+        int key = getchar();
+        if (key == 'Y' || key == 'y') {
+            for (int pos = 0; pos < (int)count ; ++pos) {
+                printf("%s theta: %03.2f Dist: %08.2f \n",
+                    (nodes[pos].sync_quality & RPLIDAR_RESP_MEASUREMENT_SYNCBIT) ?"S ":"  ",
+                    (nodes[pos].angle_q6_checkbit >> RPLIDAR_RESP_MEASUREMENT_ANGLE_SHIFT)/64.0f,
+                    nodes[pos].distance_q2/4.0f);
+            }
+        }
+    } else {
+        printf("error code: %x\n", ans);
+    }
+
+    return ans;
+}
+
 int main(int argc, char const *argv[]) {
 
   const char * opt_com_baudrate = 115200;
+  const char * opt_com_path = "/DEV/ttyUSB0";
   RPlidarDriver * drv = RPlidarDriver::CreateDriver(RPlidarDriver::DRIVER_TYPE_SERIALPORT);
 
   do {
