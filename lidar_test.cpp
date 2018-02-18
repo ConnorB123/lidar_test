@@ -5,7 +5,7 @@
 
 using namespace rp::standalone::rplidar;
 
-int int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[]) {
   RPlidarDriver * drv = RPlidarDriver::CreateDriver(RPlidarDriver::DRIVER_TYPE_SERIALPORT);
 
   if (IS_FAIL(drv->connect(opt_com_path, opt_com_baudrate))) {
