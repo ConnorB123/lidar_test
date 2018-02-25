@@ -24,22 +24,14 @@ u_result capture_and_display(RPlidarDriver * drv)
     ans = drv->grabScanData(nodes, count);
     if (IS_OK(ans) || ans == RESULT_OPERATION_TIMEOUT) {
         drv->ascendScanData(nodes, count);
-        //plot_histogram(nodes, count);
-
-        printf("Do you want to see all the data? (y/n) ");
-        int key = getchar();
-        if (key == 'Y' || key == 'y') {
             for (int pos = 0; pos < (int)count ; ++pos) {
-                printf("%s theta: %03.2f Dist: %08.2f \n",
-                    (nodes[pos].sync_quality & RPLIDAR_RESP_MEASUREMENT_SYNCBIT) ?"S ":"  ",
-                    (nodes[pos].angle_q6_checkbit >> RPLIDAR_RESP_MEASUREMENT_ANGLE_SHIFT)/64.0f,
-                    nodes[pos].distance_q2/4.0f);
-            }
+              printf("%s theta: %03.2f Dist: %08.2f Q: %d \n",
+                  (nodes[pos].sync_quality & RPLIDAR_RESP_MEASUREMENT_SYNCBIT) ?"S ":"  ",
+                  (nodes[pos].angle_q6_checkbit >> RPLIDAR_RESP_MEASUREMENT_ANGLE_SHIFT)/64.0f,
+                  nodes[pos].distance_q2/4.0f,
+                  nodes[pos].sync_quality >> RPLIDAR_RESP_MEASUREMENT_QUALITY_SHIFT);
         }
-    } else {
-        printf("error code: %x\n", ans);
     }
-
     return ans;
 }
 
