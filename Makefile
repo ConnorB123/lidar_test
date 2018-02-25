@@ -3,7 +3,8 @@
 SOURCE=lidar_test.cpp
 PROGRAM=lidar_test
 INCLUDES=/home/pi/Downloads/lidar_sdk/sdk/sdk/include/*.h
-LIBRARIES=/home/pi/Downloads/lidar_sdk/sdk/output/Linux/Release/*.a
+LIBRARIESPATH=/home/pi/Downloads/lidar_sdk/sdk/output/Linux/Release
+LIBRARIES= lrplidar_sdk
 CC=g++
 
 #------------------------------------------------------------------------------
@@ -11,7 +12,7 @@ all: $(PROGRAM)
 
 $(PROGRAM): $(SOURCE)
 
-	$(CC) -I $(INCLUDES) $(SOURCE) -o$(PROGRAM) -l $(LIBRARIES)
+	$(CC) $(SOURCE) -I $(INCLUDES) -L $(LIBRARIESPATH) -$(LIBRARIES) -pthread -o$(PROGRAM)
 
 clean:
 
