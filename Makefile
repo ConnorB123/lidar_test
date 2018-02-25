@@ -11,7 +11,7 @@ all: $(PROGRAM)
 
 $(PROGRAM): $(SOURCE)
 
-	$(CC) -I$(INCLUDES) $(SOURCE) -o$(PROGRAM) -l$(LIBRARIES)
+	$(CC) -I $(INCLUDES) $(SOURCE) -o$(PROGRAM) -l $(LIBRARIES)
 
 clean:
 
