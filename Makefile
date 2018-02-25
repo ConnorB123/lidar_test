@@ -13,7 +13,7 @@ all: $(PROGRAM)
 
 $(PROGRAM): $(SOURCE)
 
-	$(CC) $(SOURCE) -I $(INCLUDESPATH) $(INCLUDES) -L $(LIBRARIESPATH) -$(LIBRARIES) -pthread -o$(PROGRAM)
+	$(CC) $(SOURCE) -L $(LIBRARIESPATH) -$(LIBRARIES) -pthread -o$(PROGRAM)
 
 clean:
 
