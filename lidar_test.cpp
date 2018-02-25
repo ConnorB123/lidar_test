@@ -46,7 +46,7 @@ u_result capture_and_display(RPlidarDriver * drv)
 int main(int argc, char const *argv[]) {
 
   int opt_com_baudrate = 115200;
-  const char * opt_com_path = "/DEV/ttyUSB0";
+  const char * opt_com_path = "/dev/ttyUSB0";
   RPlidarDriver * drv = RPlidarDriver::CreateDriver(RPlidarDriver::DRIVER_TYPE_SERIALPORT);
 
   do {
