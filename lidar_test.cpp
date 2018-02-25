@@ -69,6 +69,6 @@ int main(int argc, char const *argv[]) {
   drv->stop();
   drv->stopMotor();
 
-  //RPlidarDriver::DisposeDriver(drv);
+  RPlidarDriver::DisposeDriver(drv);
   return 0;
 }
